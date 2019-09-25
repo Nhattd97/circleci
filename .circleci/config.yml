@@ -14,9 +14,9 @@
        - checkout
        - run: echo "hello nhat"
        - run: sleep 15
-workflows:
-  version: 2
-  one_and_two:
-    jobs:
-      - one
-      - tow
+ workflows:
+   version: 2
+   one_and_two:
+     jobs:
+       - one
+       - two
