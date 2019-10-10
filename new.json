@@ -1,0 +1,95 @@
+{
+    "apiVersion": 2,
+    "vendor": {
+        "name": "Tricentis, Inc.",
+        "url": "http://www.tricentis.com"
+    },
+    "name": "qTest Scenario - BDD for Jira",
+    "description": "A qTest Scenario JIRA add-on",
+    "key": "com.qasymphony.qtestscenario.version9",
+    "version": "3.2.0",
+    "enableLicensing": false,
+    "baseUrl": "https://scenario-v2-0-6.qtestnet.com",
+    "links": {
+        "self": "https://scenario-v2-0-6.qtestnet.com/jira/atlassian-connect.json",
+        "homepage": "https://scenario-v2-0-6.qtestnet.com/jira/atlassian-connect.json"
+    },
+    "apiMigrations": {
+        "gdpr": true
+    },
+    "authentication": {
+        "type": "jwt"
+    },
+    "lifecycle": {
+        "installed": "/installed",
+        "uninstalled": "/jira/uninstalled"
+    },
+    "scopes": [
+        "READ",
+        "WRITE"
+    ],
+    "modules": {
+        "webPanels": [
+            {
+                "url": "/jira/editor?issueId={issue.id}&projectId={project.id}",
+                "key": "gherkin-web-panel",
+                "location": "atl.jira.view.issue.left.context",
+                "name": {
+                    "value": "Scenario"
+                },
+                "weight": 250,
+                "conditions": [
+                    {
+                        "condition": "user_is_logged_in"
+                    },
+                    {
+                        "condition": "entity_property_contains_context",
+                        "params": {
+                            "entity": "project",
+                            "propertyKey": "scenarioIssueTypePropertyKey",
+                            "contextParameter": "issuetype.id"
+                        }
+                    }
+                ]
+            }
+        ],
+        "jiraProjectAdminTabPanels": [
+            {
+                "location": "projectgroup4",
+                "weight": 1000,
+                "url": "/jira/settings/project?projectId={project.id}",
+                "name": {
+                    "value": "qTest Scenario"
+                },
+                "conditions": [
+                    {
+                        "or": [
+                            {
+                                "condition": "has_project_permission",
+                                "params": {
+                                    "permission": "ADMINISTER_PROJECTS"
+                                }
+                            },
+                            {
+                                "condition": "user_is_admin"
+                            }
+                        ]
+                    }
+                ],
+                "key": "scenario-admin-panel"
+            }
+        ],
+        "postInstallPage": {
+            "url": "/jira/post-install",
+            "name": {
+                "value": "qTest Scenario Docs"
+            },
+            "conditions": [
+                {
+                    "condition": "user_is_admin"
+                }
+            ],
+            "key": "scenario-post-install"
+        }
+    }
+}

@@ -1,40 +1,23 @@
 version: 2
 jobs:
-  one:
+  upload-artifact:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
     steps:
       - checkout
-      - run: echo "A first hello"
-      - run: mkdir -p my_workspace
-      - run: echo "Trying out workspaces" > my_workspace/echo-output
-      - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory
-          root: my_workspace
-          # Must be relative path from root
-          paths:
-            - echo-output      
-  two:
-    docker:
-      - image: circleci/ruby:2.4.1
-    steps:
-      - checkout
-      - run: echo "A more familiar hi"  
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: my_workspace
-
-      - run: |
-          if [[ $(cat my_workspace/echo-output) == "Trying out workspaces" ]]; then
-            echo "It worked!";
-          else
-            echo "Nope!"; exit 1
-          fi
-workflows:
-  version: 2
-  one_and_two:
-    jobs:
-      - one
-      - two:
-          requires:
-            - one
+      - run: mvn dependency:go-offline
+      - run:
+          name: maven build
+          command: |
+            mvn clean install
+      - run:
+          name: Install jFrog CLI
+          command: curl -fL https://getcli.jfrog.io | sh
+      - run:
+          name: Push to Artifactory
+          command: |
+            ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_APIKEY --interactive=false
+            ./jfrog rt u macbook.zip gradle-dev-local --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
+            ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
+            ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
