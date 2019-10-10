@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.qasymphony</groupId>
+  <artifactId>pulse</artifactId>
+  <version>9.2.2</version>
+  <description>Artifactory auto generated POM</description>
+  <distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>nhattran-artifactory-primary-0-releases</name>
+        <url>https://nhattran.jfrog.io/nhattran/gradle-dev-local</url>
+    </repository>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>nhattran-artifactory-primary-0-snapshots</name>
+        <url>https://nhattran.jfrog.io/nhattran/gradle-dev-local</url>
+    </snapshotRepository>
+</distributionManagement>
+</project>
