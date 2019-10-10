@@ -20,3 +20,4 @@ jobs:
             ./jfrog rt u macbook.zip gradle-dev-local --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
+            
