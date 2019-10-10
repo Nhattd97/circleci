@@ -9,6 +9,7 @@ jobs:
       - run:
           name: maven build
           command: |
+            mvn -v
             mvn clean install
       - run:
           name: Install jFrog CLI
