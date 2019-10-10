@@ -1,0 +1,10 @@
+version: 1
+type: maven
+resolver:
+  snapshotRepo: libs-snapshot
+  releaseRepo: gradle-release
+  serverID: Default-Server
+deployer:
+  snapshotRepo: libs-snapshot
+  releaseRepo: libs-release
+  serverID: Default-Server
