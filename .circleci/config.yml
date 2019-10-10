@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Push to Artifactory
           command: |
-            ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_APIKEY --interactive=false
+            ./jfrog rt config --url=$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --apikey=$ARTIFACTORY_APIKEY --interactive=false
             ./jfrog rt u macbook.zip gradle-dev-local --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
