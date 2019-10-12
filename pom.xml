@@ -4,4 +4,11 @@
   <artifactId>pulse</artifactId>
   <version>1.0.1</version>
   <description>Artifactory auto generated POM</description>
+  <distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>nhattran-artifactory-primary-0-releases</name>
+        <url>https://nhattran.jfrog.io/nhattran/pulse-release</url>
+    </repository>
+</distributionManagement>
 </project>
