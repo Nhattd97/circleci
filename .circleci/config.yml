@@ -29,6 +29,7 @@ jobs:
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
             echo $CIRCLE_TAG
             ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${CIRCLE_TAG}
+            
 workflow:
   version: 2
   test-tag:
