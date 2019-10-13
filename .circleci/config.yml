@@ -30,20 +30,18 @@ jobs:
             echo $CIRCLE_TAG
             ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${CIRCLE_TAG}
 
-            
+
 workflows:
   version: 2
   test-tag:
     jobs:
-      # - build:
-      #    filters:
-      #     tags:
-      #       only: /^v.*/
-      #     branches:
-      #         ignore: /.*/
+      - build:
+         filters:
+          tags:
+            only: /.*/
       - deploy:
          filters:
           tags:
             only: /^v.*/
           branches:
-              ignore: /.*/
+            ignore: /.*/
