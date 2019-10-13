@@ -27,7 +27,7 @@ jobs:
             # ./jfrog rt mvn "clean install -f pom.xml" file.txt --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
-            TAG = ${CIRCLE_TAG#v}
+            TAG=${CIRCLE_TAG#v}
             ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG}
 
 
