@@ -2,13 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.qasymphony</groupId>
   <artifactId>pulse</artifactId>
-  <version>1.0.1</version>
+  <version>4.3</version>
   <description>Artifactory auto generated POM</description>
-  <distributionManagement>
-    <repository>
-        <id>central</id>
-        <name>nhattran-artifactory-primary-0-releases</name>
-        <url>https://nhattran.jfrog.io/nhattran/pulse-release</url>
-    </repository>
-</distributionManagement>
 </project>
