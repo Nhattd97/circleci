@@ -34,11 +34,15 @@ workflows:
   version: 2
   test-tag:
     jobs:
-      - build:
-         filters:
-          tags:
-            only: /^v.*/
+      # - build:
+      #    filters:
+      #     tags:
+      #       only: /^v.*/
+      #     branches:
+      #         ignore: /.*/
       - deploy:
          filters:
           tags:
-            only: v2.0.0
+            only: /^v.*/
+          branches:
+              ignore: /.*/
