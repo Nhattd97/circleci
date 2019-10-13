@@ -36,9 +36,6 @@ workflows:
   test-tag:
     jobs:
       - build:
-         filters:
-          tags:
-            only: /^v.*/
       - deploy:
          filters:
           tags:
