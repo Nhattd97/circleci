@@ -38,7 +38,7 @@ workflows:
       - build:
          filters:
           tags:
-            only: /.*/
+            only: /^v.*/
       - deploy:
          filters:
           tags:
