@@ -3,16 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
-    environment:
-      M2_HOME: /opt/apache-maven
     steps:
       - checkout
-      - run: mvn dependency:go-offline
-      - run:
-          name: maven build
-          command: |
-            mvn -v
-            mvn clean install
       - run:
           name: Install jFrog CLI
           command: curl -fL https://getcli.jfrog.io | sh
@@ -23,6 +15,7 @@ jobs:
             # ./jfrog rt mvn "clean install -f pom.xml" file.txt --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
+            echo $CIRCLE_TAG
             ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${CIRCLE_TAG}
 workflow:
   version: 2
