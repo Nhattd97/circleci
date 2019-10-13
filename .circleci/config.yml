@@ -16,6 +16,7 @@ jobs:
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
             echo $CIRCLE_TAG
+            echo $CIRCLE_SHA1
             ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${CIRCLE_TAG}
 workflow:
   version: 2
