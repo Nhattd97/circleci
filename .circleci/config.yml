@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Check version
+          name: Check consistent version
           command: |
             TAG_VERSION=${CIRCLE_TAG#v}
             PACKAGE_VERSION=$(node -p "require('./package.json').version")
@@ -28,11 +28,11 @@ jobs:
             ./jfrog rt config --url=$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --apikey=$ARTIFACTORY_APIKEY --interactive=false
   deploy:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/node:latest
     steps:
       - checkout
       - run:
-          name: Check version
+          name: Check consistent version
           command: |
             TAG_VERSION=${CIRCLE_TAG#v}
             PACKAGE_VERSION=$(node -p "require('./package.json').version")
@@ -55,11 +55,15 @@ jobs:
             # ./jfrog rt mvn "clean install -f pom.xml" file.txt --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
-            TAG_VERSION=${CIRCLE_TAG#v}
-            PACKAGE_VERSION=$(node -p "require('./package.json').version")
-            POM_VERSION=`cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}'`
             ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}.pom
-
+            ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}-windows-x64.zip
+      # - setup_remote_docker
+      # - run:
+      #     name: Upload image to Docker Hub
+      #     command: |
+      #       docker build -t qasymphony/pulse:${TAG_VERSION} .
+      #       docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      #       docker push qasymphony/pulse:${TAG_VERSION}
 
 workflows:
   version: 2
