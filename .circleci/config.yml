@@ -31,6 +31,9 @@ jobs:
             if [ TAG_VERSION != PACKAGE_VERSION ] || [ TAG_VERSION != POM_VERSION ]
             then
               echo Version in tag, package.json, pom.xml must be same
+              echo "Tag version ${TAG_VERSION}"
+              echo "Pakage version ${PACKAGE_VERSION}"
+              echo "POM version ${POM_VERSION}"
               exit 1
             fi
       - run:
