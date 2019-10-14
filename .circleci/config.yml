@@ -51,6 +51,7 @@ jobs:
       - run:
           name: Push to Artifactory
           command: |
+            TAG_VERSION=${CIRCLE_TAG#v}
             ./jfrog rt config --url=$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --apikey=$ARTIFACTORY_APIKEY --interactive=false
             # ./jfrog rt mvn "clean install -f pom.xml" file.txt --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
