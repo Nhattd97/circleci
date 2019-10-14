@@ -56,7 +56,7 @@ jobs:
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
             ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}.pom
-            ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}-windows-x64.zip
+            ./jfrog rt u dist.zip pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}-windows-x64.zip
       # - setup_remote_docker
       # - run:
       #     name: Upload image to Docker Hub
