@@ -57,7 +57,7 @@
     "jszip": "3.1.5",
     "klaw": "3.0.0",
     "knex": "0.15.2",
-    "lodash": "4.17.11",
+    "lodash": "4.17.15",
     "memory-cache": "^0.2.0",
     "objection": "1.4.0",
     "passport": "0.4.0",
