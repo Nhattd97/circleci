@@ -6,6 +6,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Check version
+          command: |
+            if [ TAG_VERSION != PACKAGE_VERSION ] || [ TAG_VERSION != POM_VERSION ]
+            then
+              echo Version in tag, package.json, pom.xml must be same
+              exit 1
+            fi
+      - run:
           name: Install jFrog CLI
           command: curl -fL https://getcli.jfrog.io | sh
       - run:
@@ -18,6 +26,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Check version
+          command: |
+            if [ TAG_VERSION != PACKAGE_VERSION ] || [ TAG_VERSION != POM_VERSION ]
+            then
+              echo Version in tag, package.json, pom.xml must be same
+              exit 1
+            fi
+      - run:
           name: Install jFrog CLI
           command: curl -fL https://getcli.jfrog.io | sh
       - run:
@@ -27,8 +43,10 @@ jobs:
             # ./jfrog rt mvn "clean install -f pom.xml" file.txt --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
-            TAG=${CIRCLE_TAG#v}
-            ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG}/pulse-${TAG}.pom
+            TAG_VERSION=${CIRCLE_TAG#v}
+            PACKAGE_VERSION=$(node -p "require('./package.json').version")
+            POM_VERSION=`cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}'`
+            ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}.pom
 
 
 workflows:
@@ -42,4 +60,8 @@ workflows:
             only: /.*/
           branches:
             ignore: /.*/
-#hi
+
+
+#build docker
+# docker build -t qasymphony/pulse:${PULSE_VERSION} .
+# docker push qasymphony/pulse:${PULSE_VERSION}
