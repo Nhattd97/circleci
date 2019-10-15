@@ -31,38 +31,40 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      - run:
-          name: Install jFrog CLI
-          command: curl -fL https://getcli.jfrog.io | sh
-      - run:
-          name: Push to Artifactory
-          command: |
-            TAG_VERSION=${CIRCLE_TAG#v}
-            PACKAGE_VERSION=$(node -p "require('./package.json').version")
-            POM_VERSION=`cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}'`
+      # - run:
+      #     name: Install jFrog CLI
+      #     command: curl -fL https://getcli.jfrog.io | sh
+      # - run:
+      #     name: Push to Artifactory
+      #     command: |
+            # TAG_VERSION=${CIRCLE_TAG#v}
+            # PACKAGE_VERSION=$(node -p "require('./package.json').version")
+            # POM_VERSION=`cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}'`
 
-            if [ $TAG_VERSION != $PACKAGE_VERSION ] || [ $TAG_VERSION != $POM_VERSION ]
-            then
-              echo Version in tag, package.json, pom.xml must be same
-              echo "Tag version ${TAG_VERSION}"
-              echo "Pakage version ${PACKAGE_VERSION}"
-              echo "POM version ${POM_VERSION}"
-              exit 1
-            fi
+            # if [ $TAG_VERSION != $PACKAGE_VERSION ] || [ $TAG_VERSION != $POM_VERSION ]
+            # then
+            #   echo Version in tag, package.json, pom.xml must be same
+            #   echo "Tag version ${TAG_VERSION}"
+            #   echo "Pakage version ${PACKAGE_VERSION}"
+            #   echo "POM version ${POM_VERSION}"
+            #   exit 1
+            # fi
             
-            ./jfrog rt config --url=$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --apikey=$ARTIFACTORY_APIKEY --interactive=false
+            # ./jfrog rt config --url=$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --apikey=$ARTIFACTORY_APIKEY --interactive=false
             # ./jfrog rt mvn "clean install -f pom.xml" file.txt --build-name=pulse --build-number=$CIRCLE_BUILD_NUM
             # ./jfrog rt bce pulse $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
             # ./jfrog rt bp pulse $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
-            ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}.pom
-            ./jfrog rt u dist.zip pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}-windows-x64.zip
-      # - setup_remote_docker
-      # - run:
-      #     name: Upload image to Docker Hub
-      #     command: |
-      #       docker build -t qasymphony/pulse:${TAG_VERSION} .
-      #       docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      #       docker push qasymphony/pulse:${TAG_VERSION}
+            # ./jfrog rt u pom.xml pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}.pom
+            # ./jfrog rt u dist.zip pulse-release/com/qasymphony/pulse/${TAG_VERSION}/pulse-${TAG_VERSION}-windows-x64.zip
+      - setup_remote_docker
+      - run:
+          name: Upload image to Docker Hub
+          command: |
+            docker build -t qasymphony/pulse:${TAG_VERSION} .
+            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            docker push qasymphony/pulse:${TAG_VERSION}
+            # docker tag local-image:tagname new-repo:tagname
+            # docker push new-repo:tagname
 
 workflows:
   version: 2
