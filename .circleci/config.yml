@@ -60,7 +60,7 @@ jobs:
       - run:
           name: Upload image to Docker Hub
           command: |
-            docker build -t qasymphony/pulse:first} .
+            docker build -t qasymphony/pulse:first .
             # docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
             # docker push qasymphony/pulse:${TAG_VERSION}
             # docker tag local-image:tagname new-repo:tagname
