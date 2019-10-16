@@ -71,7 +71,7 @@ workflows:
   test-tag:
     jobs:
       - build
-      - deploy:
+      - deploy
         #  filters:
         #   tags:
         #     only: /.*/
